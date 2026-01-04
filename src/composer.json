@@ -1,0 +1,24 @@
+{
+    "name": "tcrcm/app",
+    "description": "TCRCM Application",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\Controllers\\": "app/controllers/",
+            "App\\Models\\": "app/models/",
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "php": "^8.2"
+    },
+    "authors": [
+        {
+            "name": "imadeddinebetar"
+        }
+    ],
+    "config": {
+        "optimize-autoloader": true
+    }
+}
