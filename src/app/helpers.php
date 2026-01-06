@@ -8,24 +8,53 @@ if (!function_exists('config')) {
     }
 }
 
-
-if (!function_exists('view')) {
-    function view($template, $data = [])
+if (!function_exists('env')) {
+    function env($key, $default = null)
     {
-        extract($data);
-        $templatePath = __DIR__ . '//view/pages/' . $template . '.php';
-        if (file_exists($templatePath)) {
-            include $templatePath;
-        } else {
-            echo "Template not found: " . htmlspecialchars($template);
+        $value = $_ENV[$key] ?? $default;
+
+        // Return default if value is null
+        if ($value === null) {
+            return $default;
         }
+
+        // Convert to string for processing
+        $value = (string) $value;
+
+        // Trim whitespace
+        $value = trim($value);
+
+        // Remove surrounding quotes (both single and double)
+        if (
+            (str_starts_with($value, '"') && str_ends_with($value, '"')) ||
+            (str_starts_with($value, "'") && str_ends_with($value, "'"))
+        ) {
+            $value = substr($value, 1, -1);
+        }
+
+        // Handle special values
+        if ($value === '') {
+            return '';
+        }
+
+        $lower = strtolower($value);
+        if ($lower === 'null') {
+            return null;
+        }
+        if ($lower === 'true') {
+            return true;
+        }
+        if ($lower === 'false') {
+            return false;
+        }
+
+        return $value;
     }
 }
 
-
-if (!function_exists('publicPath')) {
-    function publicPath($path = '')
+if (!function_exists('e')) {
+    function e($string)
     {
-        return '/' . ltrim($path, '/');
+        return $string === null ? '' : htmlspecialchars((string)$string, ENT_QUOTES, 'UTF-8');
     }
 }

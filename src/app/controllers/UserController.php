@@ -2,25 +2,30 @@
 
 namespace App\Controllers;
 
+use App\Core\Controller as BaseController;
 use App\Models\User;
 
-class UserController
+class UserController extends BaseController
 {
+    private $userModel;
+
+    public function __construct()
+    {
+        $this->userModel = new User();
+    }
     public function index()
     {
-        $user = new User();
-        $users = $user->getAllUsers();
-        view('users', ['users' => $users]);
+        $this->render('users/index', [
+            'title' => 'User List',
+            'users' => $this->userModel->getAllUsers()
+        ]);
     }
 
     public function show($id)
     {
-        $user = new User();
-        $userData = $user->getUserById($id);
-        if ($userData) {
-            view('users-show', ['user' => $userData]);
-        } else {
-            http_response_code(404);
-        }
+        $this->render('users/show', [
+            'title' => 'User Details',
+            'id' => $id
+        ]);
     }
 }

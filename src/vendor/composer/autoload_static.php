@@ -4,27 +4,32 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1c83df874a5fc772080630e9492ad3e4
+class ComposerStaticInit39b88959b561f429bb4dc3802b46ccb4
 {
     public static $prefixLengthsPsr4 = array (
-        'A' => 
+        'A' =>
         array (
             'App\\Models\\' => 11,
+            'App\\Core\\' => 9,
             'App\\Controllers\\' => 16,
             'App\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'App\\Models\\' => 
+        'App\\Models\\' =>
         array (
             0 => __DIR__ . '/../..' . '/app/models',
         ),
-        'App\\Controllers\\' => 
+        'App\\Core\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/app/core',
+        ),
+        'App\\Controllers\\' =>
         array (
             0 => __DIR__ . '/../..' . '/app/controllers',
         ),
-        'App\\' => 
+        'App\\' =>
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
@@ -32,18 +37,25 @@ class ComposerStaticInit1c83df874a5fc772080630e9492ad3e4
 
     public static $classMap = array (
         'App\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/controllers/Controller.php',
-        'App\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/controllers/UserController.php',
+        'App\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/controllers/HomeController.php',
+        'App\\Core\\DB' => __DIR__ . '/../..' . '/app/core/DB.php',
+        'App\\Core\\Env' => __DIR__ . '/../..' . '/app/core/Env.php',
+        'App\\Core\\Logger' => __DIR__ . '/../..' . '/app/core/Logger.php',
+        'App\\Core\\Middleware' => __DIR__ . '/../..' . '/app/core/Middleware.php',
+        'App\\Core\\Request' => __DIR__ . '/../..' . '/app/core/Request.php',
+        'App\\Core\\Router' => __DIR__ . '/../..' . '/app/core/Router.php',
+        'App\\Core\\Security' => __DIR__ . '/../..' . '/app/core/Security.php',
+        'App\\Core\\Validator' => __DIR__ . '/../..' . '/app/core/Validator.php',
         'App\\Models\\Model' => __DIR__ . '/../..' . '/app/models/Model.php',
-        'App\\Models\\User' => __DIR__ . '/../..' . '/app/models/User.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1c83df874a5fc772080630e9492ad3e4::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1c83df874a5fc772080630e9492ad3e4::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit1c83df874a5fc772080630e9492ad3e4::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit39b88959b561f429bb4dc3802b46ccb4::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit39b88959b561f429bb4dc3802b46ccb4::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit39b88959b561f429bb4dc3802b46ccb4::$classMap;
 
         }, null, ClassLoader::class);
     }

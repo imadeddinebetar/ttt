@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'tcrcm/app',
+        'name' => 'server03/ssp',
         'pretty_version' => '1.0.0+no-version-set',
         'version' => '1.0.0.0',
         'reference' => null,
@@ -10,7 +10,7 @@
         'dev' => true,
     ),
     'versions' => array(
-        'tcrcm/app' => array(
+        'server03/ssp' => array(
             'pretty_version' => '1.0.0+no-version-set',
             'version' => '1.0.0.0',
             'reference' => null,
