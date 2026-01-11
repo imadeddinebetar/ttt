@@ -12,4 +12,9 @@ class User extends BaseModel
     {
         return $this->select("SELECT * FROM {$this->table}");
     }
+
+    public function getUserByUsername(string $username): array
+    {
+        return $this->select("SELECT * FROM {$this->table} WHERE username like :username", ['username' => $username]);
+    }
 }

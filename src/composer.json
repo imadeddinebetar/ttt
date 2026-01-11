@@ -5,12 +5,15 @@
         "psr-4": {
             "App\\Controllers\\": "app/controllers/",
             "App\\Models\\": "app/models/",
+            "App\\Services\\": "app/services/",
             "App\\Core\\": "app/core/",
+            "App\\Enums\\": "app/enums/",
             "App\\": "app/"
         }
     },
     "require": {
-        "php": "^8.3"
+        "php": "^8.3",
+        "phpoffice/phpspreadsheet": "^5.3"
     },
     "config": {
         "optimize-autoloader": true

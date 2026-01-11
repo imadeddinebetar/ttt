@@ -2,36 +2,27 @@
 
 declare(strict_types=1);
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../app/helpers.php';
 
-use App\Core\Env;
-use App\Core\Router;
 use App\Core\Logger;
 
-Env::load(__DIR__ . '/../.env');
+App\Core\Env::load(__DIR__ . '/../.env');
 
-$router = new Router();
-$router->dispatch(trim($_SERVER['REQUEST_URI'], env('PROJECT_PREFIXE')), $_SERVER['REQUEST_METHOD']);
+ini_set('memory_limit', '512M');
+ini_set('max_execution_time', 0);
+set_time_limit(0);
 
-// ----------------- END OF FILE -----------------
+ini_set('display_errors', env('APP_DEBUG'));
+ini_set('display_startup_errors', env('APP_DEBUG'));
+error_reporting(E_ALL);
 
-// // public/index.php
-// use App\Core\Router;
-
-// $container = require_once __DIR__ . '/../bootstrap/app.php';
-
-// // Create router with container
-// $router = new Router($container);
-
-// // Load routes
-// require_once __DIR__ . '/../routes/web.php';
-
-// // Dispatch
-// $requestMethod = $_SERVER['REQUEST_METHOD'];
-// $requestUri = $_SERVER['REQUEST_URI'];
-
-// $router->dispatch($requestMethod, $requestUri);
+$app_dir = env('APP_DIR');
+$uri = $_SERVER['REQUEST_URI'];
+$method = $_SERVER['REQUEST_METHOD'];
+$clean_uri = $uri;
+if (!empty($app_dir) && str_starts_with($uri, $app_dir)) {
+    $clean_uri = substr($uri, strlen($app_dir));
+}
+$router = new App\Core\Router();
+$router->dispatch($clean_uri, $method);

@@ -7,9 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInit39b88959b561f429bb4dc3802b46ccb4
 {
     public static $prefixLengthsPsr4 = array (
-        'A' =>
+        'A' => 
         array (
+            'App\\Services\\' => 13,
             'App\\Models\\' => 11,
+            'App\\Enums\\' => 10,
             'App\\Core\\' => 9,
             'App\\Controllers\\' => 16,
             'App\\' => 4,
@@ -17,36 +19,56 @@ class ComposerStaticInit39b88959b561f429bb4dc3802b46ccb4
     );
 
     public static $prefixDirsPsr4 = array (
-        'App\\Models\\' =>
+        'App\\Services\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/services',
+        ),
+        'App\\Models\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/models',
         ),
-        'App\\Core\\' =>
+        'App\\Enums\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/enums',
+        ),
+        'App\\Core\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/core',
         ),
-        'App\\Controllers\\' =>
+        'App\\Controllers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/controllers',
         ),
-        'App\\' =>
+        'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
     );
 
     public static $classMap = array (
-        'App\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/controllers/Controller.php',
+        'App\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/controllers/AuthController.php',
         'App\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/controllers/HomeController.php',
+        'App\\Controllers\\ImportController' => __DIR__ . '/../..' . '/app/controllers/ImportController.php',
+        'App\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/controllers/UserController.php',
+        'App\\Core\\Controller' => __DIR__ . '/../..' . '/app/core/Controller.php',
         'App\\Core\\DB' => __DIR__ . '/../..' . '/app/core/DB.php',
         'App\\Core\\Env' => __DIR__ . '/../..' . '/app/core/Env.php',
+        'App\\Core\\FileSystem' => __DIR__ . '/../..' . '/app/core/FileSystem.php',
         'App\\Core\\Logger' => __DIR__ . '/../..' . '/app/core/Logger.php',
         'App\\Core\\Middleware' => __DIR__ . '/../..' . '/app/core/Middleware.php',
+        'App\\Core\\Model' => __DIR__ . '/../..' . '/app/core/Model.php',
         'App\\Core\\Request' => __DIR__ . '/../..' . '/app/core/Request.php',
         'App\\Core\\Router' => __DIR__ . '/../..' . '/app/core/Router.php',
         'App\\Core\\Security' => __DIR__ . '/../..' . '/app/core/Security.php',
+        'App\\Core\\Session' => __DIR__ . '/../..' . '/app/core/Session.php',
         'App\\Core\\Validator' => __DIR__ . '/../..' . '/app/core/Validator.php',
-        'App\\Models\\Model' => __DIR__ . '/../..' . '/app/models/Model.php',
+        'App\\Enums\\ImportStatus' => __DIR__ . '/../..' . '/app/enums/ImportStatus.php',
+        'App\\Models\\Driver' => __DIR__ . '/../..' . '/app/models/Driver.php',
+        'App\\Models\\History' => __DIR__ . '/../..' . '/app/models/History.php',
+        'App\\Models\\Import' => __DIR__ . '/../..' . '/app/models/Import.php',
+        'App\\Models\\User' => __DIR__ . '/../..' . '/app/models/User.php',
+        'App\\Models\\Vehicle' => __DIR__ . '/../..' . '/app/models/Vehicle.php',
+        'App\\Services\\ImportService' => __DIR__ . '/../..' . '/app/services/ImportService.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 

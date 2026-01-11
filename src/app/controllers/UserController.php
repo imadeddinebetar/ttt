@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Controller as BaseController;
 use App\Models\User;
+use App\Core\Middleware;
 
 class UserController extends BaseController
 {
@@ -11,6 +12,7 @@ class UserController extends BaseController
 
     public function __construct()
     {
+        Middleware::auth();
         $this->userModel = new User();
     }
     public function index()

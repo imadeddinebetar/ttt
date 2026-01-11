@@ -1,14 +1,17 @@
 <?php
 
-return [
+return  [
     'GET' => [
 
         // Home
-        '/home/{id}' => 'HomeController@index',
+        '/' => 'HomeController@index',
+
+        // Auth
+        '/login' => 'AuthController@login',
 
         // Imports
-        '/imports' => 'ImportController@index',
-        '/imports/create' => 'ImportController@create',
+        //'/imports' => 'ImportController@index',
+        '/imports/upload' => 'ImportController@upload',
         '/imports/{id}' => 'ImportController@show',
 
         // Drivers
@@ -21,13 +24,17 @@ return [
 
         // Users
         '/users' => 'UserController@index',
-        '/users/{id}' => 'UserController@show',
+        '/users/{id}/show' => 'UserController@show',
 
     ],
     'POST' => [
 
+        // Auth
+        '/login' => 'AuthController@auth',
+
         // Imports
-        '/imports/upload' => 'ImportController@upload'
+        '/imports/store' => 'ImportController@store',
+        '/imports/predict/{id}' => 'ImportController@predict'
 
     ],
     'PUT' => [],

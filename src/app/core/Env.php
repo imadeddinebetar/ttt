@@ -4,6 +4,11 @@ namespace App\Core;
 
 class Env
 {
+    public function __construct()
+    {
+        die('Env class');
+    }
+
     public static function load(string $filePath): void
     {
 

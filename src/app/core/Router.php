@@ -8,18 +8,20 @@ class Router
 
     public function __construct()
     {
+
         $this->routes = config('routes');
     }
 
     public function dispatch(string $uri, string $method)
     {
+
+
         $path = parse_url($uri, PHP_URL_PATH) ?: '/';
 
         // Normalize path: remove trailing slash except for root
         if ($path !== '/') {
             $path = rtrim($path, '/');
         }
-
 
         // exact match first
         if (isset($this->routes[$method][$path])) {
@@ -46,7 +48,7 @@ class Router
         http_response_code(404);
     }
 
-    protected function compileRouteToRegex(string $route): string
+    private function compileRouteToRegex(string $route): string
     {
         // Ensure route starts with slash for consistency
         if ($route !== '/' && substr($route, 0, 1) !== '/') {
@@ -63,7 +65,7 @@ class Router
         return '#^' . rtrim($regex, '/') . '/?$#';
     }
 
-    protected function callHandler(string $handler, array $params = [])
+    private function callHandler(string $handler, array $params = [])
     {
         if (!str_contains($handler, '@')) {
             throw new \Exception('Invalid route handler');

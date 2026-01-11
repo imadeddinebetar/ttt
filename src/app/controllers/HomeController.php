@@ -3,14 +3,19 @@
 namespace App\Controllers;
 
 use App\Core\Controller as BaseController;
-
+use App\Core\Middleware;
 class HomeController extends BaseController
 {
-    public function index($id)
+
+    public function __construct()
+    {
+        Middleware::auth();
+    }
+
+    public function index()
     {
         $this->render('home/index', [
-            'title' => 'Welcome to the Home Page',
-            'id' => $id
+            'title' => 'Home Page',
         ]);
     }
 }

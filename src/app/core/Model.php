@@ -2,29 +2,41 @@
 
 namespace App\Core;
 
+use \App\Core\DB;
+
 class Model
 {
     private $connection;
     protected $table;
+
     public function __construct()
     {
-        $this->connection = \App\Core\DB::getInstance()->getConnection();
+        $this->connection = DB::getInstance()->getConnection();
+    }
+
+    protected function getTableName()
+    {
+        return $this->table;
     }
 
     protected function insert(array $data): array
     {
         try {
+
             $columns = array_keys($data);
             $placeholders = array_map(fn($c) => ':' . $c, $columns);
             $sql = 'INSERT INTO ' . $this->table . ' (' . implode(',', $columns) . ') VALUES (' . implode(',', $placeholders) . ')';
+
 
             $stmt = $this->connection->prepare($sql);
             if ($stmt === false) {
                 return [];
             }
+
             foreach ($data as $key => $value) {
                 $stmt->bindValue(':' . $key, $value);
             }
+
             $stmt->execute();
 
             $id = (int) $this->connection->lastInsertId();
@@ -39,11 +51,58 @@ class Model
             return $result ?: [];
         } catch (\PDOException $e) {
             // Optional: log error
+            dd($e->getMessage(), $sql, $data);
             return [];
         }
     }
 
-    public function update(array $data): array
+    protected function bulkInsert(array $rows): int
+    {
+        if (empty($rows)) {
+            return 0;
+        }
+
+        try {
+            $this->connection->beginTransaction();
+
+            // Columns from first row
+            $columns = array_keys(reset($rows));
+
+            // (?,?,?,?) placeholder
+            $rowPlaceholder = '(' . implode(',', array_fill(0, count($columns), '?')) . ')';
+
+            // (?, ?, ?), (?, ?, ?), ...
+            $placeholders = implode(',', array_fill(0, count($rows), $rowPlaceholder));
+
+            $sql = 'INSERT INTO ' . $this->table .
+                ' (' . implode(',', $columns) . ') VALUES ' . $placeholders;
+
+            $stmt = $this->connection->prepare($sql);
+            if ($stmt === false) {
+                $this->connection->rollBack();
+                return 0;
+            }
+
+            // Flatten values
+            $values = [];
+            foreach ($rows as $row) {
+                foreach ($columns as $column) {
+                    $values[] = $row[$column];
+                }
+            }
+
+            $stmt->execute($values);
+            $this->connection->commit();
+
+            return $stmt->rowCount(); // number of inserted rows
+
+        } catch (\PDOException $e) {
+            $this->connection->rollBack();
+            throw $e; // do NOT swallow bulk errors
+        }
+    }
+
+    protected function update(array $data): array
     {
         if (!isset($data['id'])) {
             throw new \InvalidArgumentException('ID is required for update');
@@ -51,7 +110,6 @@ class Model
         try {
             $id = $data['id'];
             unset($data['id']);
-
             $setClauses = [];
             foreach ($data as $key => $value) {
                 $setClauses[] = $key . ' = :' . $key;
@@ -75,27 +133,28 @@ class Model
             $select->execute([':id' => $id]);
             $result = $select->fetch(\PDO::FETCH_ASSOC);
 
+
+
             return $result ?: [];
         } catch (\PDOException $e) {
             // Optional: log error
+             dd($e->getMessage(), $sql, $data);
             return [];
         }
     }
 
-    public function delete(array $data): bool
+    protected function delete(array $data): bool
     {
         if (!isset($data['id'])) {
             throw new \InvalidArgumentException('ID is required for delete');
         }
         try {
             $id = $data['id'];
-
             $stmt = $this->connection->prepare('DELETE FROM ' . $this->table . ' WHERE id = :id');
             if ($stmt === false) {
                 return false;
             }
-            $stmt->bindValue(':id', $id);
-            $stmt->execute();
+            $stmt->execute(['id' => $id]);
 
             return true;
         } catch (\PDOException $e) {
@@ -104,18 +163,21 @@ class Model
         }
     }
 
-    public function select(string $sql, array $params = []): array
+    protected function select(string $sql, array $params = []): array
     {
         try {
+
             $stmt = $this->connection->prepare($sql);
             if ($stmt === false) {
                 return [];
             }
             $stmt->execute($params);
 
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            return $results ?: [];
         } catch (\PDOException $e) {
-            // Optional: log error message, e.g. error_log($e->getMessage());
+            dd($e->getMessage(), $sql, $params);
             return [];
         }
     }
